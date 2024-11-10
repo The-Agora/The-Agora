@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Website</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <div id="curtain" class="curtain">
+        <h1>Welcome to the Agora</h1>
+        <link href="https://fonts.googleapis.com/css2?family=Ruge+Boogie&display=swap" rel="stylesheet">
+        <p>Click to enter!</p>
+    </div>
+    <div id="content" class="content hidden">
+        <div class="navbar">
+            <a href="#">Goals</a>
+            <a href="#">Partners</a>
+            <a href="#">Charity</a>
+            <a href="#">Contact Us</a>
+            <a href="#">Content</a>
+        </div>
+        <img src="images/vines enlarged.png" alt="AGORA Image" class="background-image">
+        <div class="behind-curtain-text">
+            <h2>Our Mission</h2>
+            <p>Our goal is to bring content creators together to facilitate channel growth and empower communities to enact lasting change on the world.</p>
+        </div>
+    </div>
+    <div id="firefly-container"></div>
+
+    <audio id="background-audio" autoplay loop>
+        <source src="audio/night-ambience-17064.mp3" type="audio/mpeg">
+        Your browser does not support the audio tag.
+    </audio>
+    
+
+    
+    
+
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+<nav class="navbar">
+    <button class="nav-button" onclick="location.href='index.html'">Home</button> 
+    <button class="nav-button" onclick="location.href='goals.html'">Goals</button>
+    <button class="nav-button" onclick="location.href='partners.html'">Partners</button>
+    <button class="nav-button" onclick="location.href='charity.html'">Charity</button>
+    <button class="nav-button" onclick="location.href='contact.html'">Contact Us</button>
+    <button class="nav-button" onclick="location.href='content.html'">Content</button>
+    <button class="nav-button" onclick="location.href='info.html'">Info</button>
+</nav>

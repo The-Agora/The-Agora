@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <button class="nav-button" onclick="location.href='index.html'">Home</button> 
+        <button class="nav-button" onclick="location.href='goals.html'">Goals</button>
+        <button class="nav-button" onclick="location.href='partners.html'">Partners</button>
+        <button class="nav-button" onclick="location.href='charity.html'">Charity</button>
+        <button class="nav-button" onclick="location.href='contact.html'">Contact Us</button>
+        <button class="nav-button" onclick="location.href='content.html'">Content</button>
+        <button class="nav-button" onclick="location.href='info.html'">Info</button>
+    </nav>
+
+    <h1>Latest Videos</h1>
+    <div id="video-container"></div>
+
+    <script>
+        const apiKey = 'AIzaSyA2IRtd2j-4t2nYcNhg1x8ZkrXAbLC-uj0';
+        const channelId = 'UCnQE6SxW8AgIUmjxp6u_ycA';
+
+        async function fetchVideos() {
+            
+            const channelResponse = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${channelId}&key=${apiKey}`);
+            const channelData = await channelResponse.json();
+            const uploadsPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
+
+            
+            const playlistResponse = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylistId}&maxResults=4&key=${apiKey}`);
+            const playlistData = await playlistResponse.json();
+
+            const videoContainer = document.getElementById('video-container');
+            playlistData.items.forEach(item => {
+                const videoId = item.snippet.resourceId.videoId;
+                const videoEmbed = document.createElement('iframe');
+                videoEmbed.src = `https://www.youtube.com/embed/${videoId}`;
+                videoEmbed.width = '560';
+                videoEmbed.height = '315';
+                videoEmbed.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                videoEmbed.allowFullscreen = true;
+                videoContainer.appendChild(videoEmbed);
+            });
+        }
+
+        fetchVideos();
+    </script>
+</body>
+</html>
