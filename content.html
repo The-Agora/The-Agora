@@ -24,20 +24,37 @@
     <div id="video-container"></div>
 
     <script>
-        const apiKey = 'AIzaSyA2IRtd2j-4t2nYcNhg1x8ZkrXAbLC-uj0';
-        const channelId = 'UCnQE6SxW8AgIUmjxp6u_ycA';
+    const apiKey = 'AIzaSyA2IRtd2j-4t2nYcNhg1x8ZkrXAbLC-uj0';
+    const channelLinks = [
+        'https://www.youtube.com/channel/UCnQE6SxW8AgIUmjxp6u_ycA', // Replace with your desired channels
+        'https://youtube.com/@geographyify?si=Hj8ItRlCP9MQnT3S',
+        'https://www.youtube.com/channel/CHANNEL_ID_3'
+    ];
 
-        async function fetchVideos() {
-            
+    async function fetchVideosFromChannel(channelId) {
+        try {
             const channelResponse = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${channelId}&key=${apiKey}`);
             const channelData = await channelResponse.json();
+
+            if (!channelData.items || channelData.items.length === 0) {
+                console.error(`Channel not found for ID: ${channelId}`);
+                return;
+            }
+
             const uploadsPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
 
-            
             const playlistResponse = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylistId}&maxResults=4&key=${apiKey}`);
             const playlistData = await playlistResponse.json();
 
+            if (!playlistData.items || playlistData.items.length === 0) {
+                console.error(`No videos found for channel ID: ${channelId}`);
+                return;
+            }
+
             const videoContainer = document.getElementById('video-container');
+            const channelSection = document.createElement('div');
+            channelSection.classList.add('channel-section');
+
             playlistData.items.forEach(item => {
                 const videoId = item.snippet.resourceId.videoId;
                 const videoEmbed = document.createElement('iframe');
@@ -46,11 +63,24 @@
                 videoEmbed.height = '315';
                 videoEmbed.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
                 videoEmbed.allowFullscreen = true;
-                videoContainer.appendChild(videoEmbed);
+                channelSection.appendChild(videoEmbed);
             });
-        }
 
-        fetchVideos();
-    </script>
+            videoContainer.appendChild(channelSection);
+        } catch (error) {
+            console.error(`Failed to fetch videos for channel ID: ${channelId}`, error);
+        }
+    }
+
+    async function fetchVideos() {
+        for (const link of channelLinks) {
+            const channelId = link.split('/').pop(); // Extracts the channel ID from the URL
+            await fetchVideosFromChannel(channelId);
+        }
+    }
+
+    fetchVideos();
+</script>
+
 </body>
 </html>
