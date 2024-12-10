@@ -61,7 +61,12 @@ body {
     align-items: center;
     justify-content: flex-start;
     z-index: 1; 
+    padding: 20px; 
+    max-width: 800px; 
+    margin: 0 auto; 
+    box-sizing: border-box; 
 }
+
 
 .navbar {
     width: 100%;
